@@ -11,9 +11,17 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ListView Grid.Column="0" Margin="5,30" BorderThickness="3">
 
+        <ListView x:Name="CarListView" Grid.Column="0" Margin="5,30" BorderThickness="3" ItemsSource="{Binding cars}" SelectionChanged="CarListView_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Marka" DisplayMemberBinding="{Binding Marka}" Width="120"/>
+                    <GridViewColumn Header="Model" DisplayMemberBinding="{Binding Model}" Width="120"/>
+                    <GridViewColumn Header="Year" DisplayMemberBinding="{Binding Year}" Width="80"/>
+                </GridView>
+            </ListView.View>
         </ListView>
+
         <Grid Grid.Column="1" Margin="0,30">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -28,7 +36,7 @@
                     <ColumnDefinition Width="2.5*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="Marka" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18"/>
-                <TextBox Grid.Column="1" Margin="10" VerticalContentAlignment="Center" FontSize="18"/>
+                <TextBox x:Name="MarkaTextBox" Grid.Column="1" Margin="10" VerticalContentAlignment="Center" FontSize="18" TextChanged="TextBox_TextChanged"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -36,7 +44,7 @@
                     <ColumnDefinition Width="2.5*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="Model" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18"/>
-                <TextBox Grid.Column="1" Margin="10" VerticalContentAlignment="Center" FontSize="18"/>
+                <TextBox x:Name="ModelTextBox" Grid.Column="1" Margin="10" VerticalContentAlignment="Center" FontSize="18" TextChanged="TextBox_TextChanged"/>
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
@@ -44,7 +52,7 @@
                     <ColumnDefinition Width="2.5*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="Year" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18"/>
-                <TextBox Grid.Column="1" Margin="10" VerticalContentAlignment="Center" FontSize="18"/>
+                <TextBox x:Name="YearTextBox" Grid.Column="1" Margin="10" VerticalContentAlignment="Center" FontSize="18" TextChanged="TextBox_TextChanged"/>
             </Grid>
             <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
@@ -52,7 +60,7 @@
                     <ColumnDefinition Width="2.5*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="St. Number" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18"/>
-                <TextBox Grid.Column="1" Margin="10" VerticalContentAlignment="Center" FontSize="18"/>
+                <TextBox x:Name="StNumberTextBox" Grid.Column="1" Margin="10" VerticalContentAlignment="Center" FontSize="18" TextChanged="TextBox_TextChanged"/>
             </Grid>
             <Grid Grid.Row="4">
                 <Grid.ColumnDefinitions>
@@ -66,9 +74,9 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Margin="5,10" Content="Add" FontSize="17"/>
-                    <Button Grid.Column="1" Margin="5,10" Content="Update" FontSize="17"/>
-                    <Button Grid.Column="2" Margin="5,10" Content="Delete" FontSize="17"/>
+                    <Button x:Name="AddButton" Grid.Column="0" Margin="5,10" Content="Add" FontSize="17" Click="AddButton_Click"/>
+                    <Button x:Name="UpdateButton" Grid.Column="1" Margin="5,10" Content="Update" FontSize="17" IsEnabled="False"/>
+                    <Button x:Name="DeleteButton" Grid.Column="2" Margin="5,10" Content="Delete" FontSize="17" IsEnabled="False"/>
                 </Grid>
             </Grid>
         </Grid>
