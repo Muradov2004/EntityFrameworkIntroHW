@@ -75,15 +75,37 @@ namespace EntityFrameworkIntroHW
 
         private void CarListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (CarListView.SelectedItem is not null)
+            {
+                DeleteButton.IsEnabled = true;
+                UpdateButton.IsEnabled = true;
 
-            DeleteButton.IsEnabled = true;
-            UpdateButton.IsEnabled = true;
+                MarkaTextBox.Text = cars[CarListView.SelectedIndex].Marka;
+                ModelTextBox.Text = cars[CarListView.SelectedIndex].Model;
+                YearTextBox.Text = cars[CarListView.SelectedIndex].Year.ToString();
+                StNumberTextBox.Text = cars[CarListView.SelectedIndex].StateNumber.ToString();
+            }
 
-            MarkaTextBox.Text = cars[CarListView.SelectedIndex].Marka;
-            ModelTextBox.Text = cars[CarListView.SelectedIndex].Model;
-            YearTextBox.Text = cars[CarListView.SelectedIndex].Year.ToString();
-            StNumberTextBox.Text = cars[CarListView.SelectedIndex].StateNumber.ToString();
+        }
 
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (CarContext database = new())
+            {
+                Car car = database.Cars.FirstOrDefault(c => c.Id == cars[CarListView.SelectedIndex].Id)!;
+
+                database.Remove(car);
+
+                database.SaveChanges();
+
+                ClearTextBox();
+
+                CarListView.SelectedItem = null;
+
+                cars.Clear();
+
+                CarContext.Cars.ToList().ForEach(c => cars.Add(c));
+            }
         }
     }
 }

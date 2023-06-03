@@ -76,7 +76,7 @@
                     </Grid.ColumnDefinitions>
                     <Button x:Name="AddButton" Grid.Column="0" Margin="5,10" Content="Add" FontSize="17" Click="AddButton_Click"/>
                     <Button x:Name="UpdateButton" Grid.Column="1" Margin="5,10" Content="Update" FontSize="17" IsEnabled="False"/>
-                    <Button x:Name="DeleteButton" Grid.Column="2" Margin="5,10" Content="Delete" FontSize="17" IsEnabled="False"/>
+                    <Button x:Name="DeleteButton" Grid.Column="2" Margin="5,10" Content="Delete" FontSize="17" IsEnabled="False" Click="DeleteButton_Click"/>
                 </Grid>
             </Grid>
         </Grid>
