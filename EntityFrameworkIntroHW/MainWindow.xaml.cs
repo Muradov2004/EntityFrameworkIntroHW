@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -28,8 +29,12 @@ namespace EntityFrameworkIntroHW
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //if (MarkaTextBox.Text is not null && ModelTextBox.Text is not null && YearTextBox.Text is not null && StNumberTextBox is not null) UpdateButton.IsEnabled = true;
-            //else UpdateButton.IsEnabled = false;
+            if (MarkaTextBox.Text == string.Empty && ModelTextBox.Text == string.Empty && YearTextBox.Text == string.Empty && StNumberTextBox.Text == string.Empty)
+            {
+                DeleteButton.IsEnabled = false;
+                UpdateButton.IsEnabled = false;
+            }
+
         }
 
         private void ClearTextBox()
