@@ -34,7 +34,10 @@ namespace EntityFrameworkIntroHW
                 DeleteButton.IsEnabled = false;
                 UpdateButton.IsEnabled = false;
             }
-
+            if ((MarkaTextBox.Text != cars[CarListView.SelectedIndex].Marka && MarkaTextBox.Text != string.Empty) || (ModelTextBox.Text != cars[CarListView.SelectedIndex].Model && ModelTextBox.Text != string.Empty) || (YearTextBox.Text != cars[CarListView.SelectedIndex].Year.ToString() && YearTextBox.Text != string.Empty) || (StNumberTextBox.Text != cars[CarListView.SelectedIndex].StateNumber.ToString() && StNumberTextBox.Text != string.Empty))
+                UpdateButton.IsEnabled = true;
+            else
+                UpdateButton.IsEnabled = false;
         }
 
         private void ClearTextBox()
@@ -83,7 +86,7 @@ namespace EntityFrameworkIntroHW
             if (CarListView.SelectedItem is not null)
             {
                 DeleteButton.IsEnabled = true;
-                UpdateButton.IsEnabled = true;
+                UnSelectButton.IsEnabled = true;
 
                 MarkaTextBox.Text = cars[CarListView.SelectedIndex].Marka;
                 ModelTextBox.Text = cars[CarListView.SelectedIndex].Model;
@@ -111,6 +114,23 @@ namespace EntityFrameworkIntroHW
 
                 CarContext.Cars.ToList().ForEach(c => cars.Add(c));
             }
+        }
+
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (true)
+            {
+
+            }
+        }
+
+        private void UnSelectButton_Click(object sender, RoutedEventArgs e)
+        {
+            ClearTextBox();
+
+            CarListView.SelectedItem = null;
+
+            UnSelectButton.IsEnabled = false;
         }
     }
 }
