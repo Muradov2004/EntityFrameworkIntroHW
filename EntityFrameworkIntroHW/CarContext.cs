@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 public class CarContext : DbContext
 {
@@ -10,6 +12,12 @@ public class CarContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Cars;Integrated Security=True;"); 
+        string connecionString;
+        var builder = new ConfigurationBuilder();
+        builder.SetBasePath(Directory.GetCurrentDirectory());
+        builder.AddJsonFile("AppConfig.json");
+        var config = builder.Build();
+        connecionString = config.GetConnectionString("DefaultConnection")!;
+        optionsBuilder.UseSqlServer(connecionString); 
     }
 }

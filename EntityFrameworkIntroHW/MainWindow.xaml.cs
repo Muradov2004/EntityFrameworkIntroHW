@@ -34,7 +34,11 @@ namespace EntityFrameworkIntroHW
                 DeleteButton.IsEnabled = false;
                 UpdateButton.IsEnabled = false;
             }
-            if ((MarkaTextBox.Text != cars[CarListView.SelectedIndex].Marka && MarkaTextBox.Text != string.Empty) || (ModelTextBox.Text != cars[CarListView.SelectedIndex].Model && ModelTextBox.Text != string.Empty) || (YearTextBox.Text != cars[CarListView.SelectedIndex].Year.ToString() && YearTextBox.Text != string.Empty) || (StNumberTextBox.Text != cars[CarListView.SelectedIndex].StateNumber.ToString() && StNumberTextBox.Text != string.Empty))
+            if (CarListView.SelectedItem is not null &&
+                ((MarkaTextBox.Text != cars[CarListView.SelectedIndex].Marka && MarkaTextBox.Text != string.Empty) ||
+                (ModelTextBox.Text != cars[CarListView.SelectedIndex].Model && ModelTextBox.Text != string.Empty) ||
+                (YearTextBox.Text != cars[CarListView.SelectedIndex].Year.ToString() && YearTextBox.Text != string.Empty) ||
+                (StNumberTextBox.Text != cars[CarListView.SelectedIndex].StateNumber.ToString() && StNumberTextBox.Text != string.Empty)))
                 UpdateButton.IsEnabled = true;
             else
                 UpdateButton.IsEnabled = false;
@@ -55,23 +59,30 @@ namespace EntityFrameworkIntroHW
                 using (CarContext database = new())
                 {
 
-                    Car car = new()
+                    try
                     {
-                        Model = ModelTextBox.Text,
-                        Marka = MarkaTextBox.Text,
-                        Year = Convert.ToInt32(YearTextBox.Text),
-                        StateNumber = Convert.ToInt32(StNumberTextBox.Text)
-                    };
+                        Car car = new()
+                        {
+                            Model = ModelTextBox.Text,
+                            Marka = MarkaTextBox.Text,
+                            Year = Convert.ToInt32(YearTextBox.Text),
+                            StateNumber = Convert.ToInt32(StNumberTextBox.Text)
+                        };
+                        database.Cars.Add(car);
 
-                    database.Cars.Add(car);
+                        database.SaveChanges();
 
-                    database.SaveChanges();
+                        cars.Clear();
 
-                    cars.Clear();
+                        CarContext.Cars.ToList().ForEach(c => cars.Add(c));
 
-                    CarContext.Cars.ToList().ForEach(c => cars.Add(c));
-
-                    ClearTextBox();
+                        ClearTextBox();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        ClearTextBox();
+                    }
                 }
             }
             else
@@ -112,15 +123,42 @@ namespace EntityFrameworkIntroHW
 
                 cars.Clear();
 
-                CarContext.Cars.ToList().ForEach(c => cars.Add(c));
+                database.Cars.ToList().ForEach(c => cars.Add(c));
             }
         }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (true)
+            Car car = null!;
+            using (var database = new CarContext())
             {
+                try
+                {
 
+                    car = database.Cars.FirstOrDefault(c => c.Id == cars[CarListView.SelectedIndex].Id)!;
+                    if (car is not null)
+                    {
+                        car.Marka = MarkaTextBox.Text;
+                        car.Model = ModelTextBox.Text;
+                        car.Year = Convert.ToInt32(YearTextBox.Text);
+                        car.StateNumber = Convert.ToInt32(StNumberTextBox.Text);
+
+                        database.Cars.Update(car);
+
+                        cars.Clear();
+
+                        database.Cars.ToList().ForEach(c => cars.Add(c));
+
+                        database.SaveChanges();
+                    }
+
+                    ClearTextBox();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    ClearTextBox();
+                }
             }
         }
 
